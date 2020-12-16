@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzhx.greenFinance.dao.QueryRHInfoMapper">
+	<select id="queryReportSummaryList" parameterType="String"
+		resultMap="ReportSummaryList">
+		select reportSceneType,count(*) number from
+		send_green_thr_standing_book_info group by reportSceneType
+	</select>
+	<select id="queryDeleteSummaryList" parameterType="String"
+		resultMap="ReportSummaryList">
+		select '11050014' as reportSceneType,count(*) number from
+		send_green_thr_sended_info
+	</select>
+	<resultMap type="com.hzhx.greenFinance.renHangVo.ReportSummary"
+		id="ReportSummaryList">
+		<result property="reportSceneType" column="reportSceneType" />
+		<result property="yewuNum" column="number" />
+	</resultMap>
+
+	<select id="queryEnterpriseList" parameterType="String"
+		resultMap="EnterpriseList">
+		SELECT enterpriseNo,
+		enterpriseName,
+		unifiedSocialCreditCd,
+		legalPerson,
+		registeredAmount,
+		areaCd,
+		industryCd,
+		companyTypeCd,
+		companySizeCd,
+		businessScope,
+		majorBusiness,
+		greenDecidedStandardName,
+		greenClass
+		FROM send_green_thr_comapny_commit_shall_info
+	</select>
+	<resultMap id="EnterpriseList" type="com.hzhx.greenFinance.renHangVo.Enterprise">
+		<result property="enterpriseNo" column="enterpriseNo" />
+		<result property="enterpriseName" column="enterpriseName" />
+		<result property="unifiedSocialCreditCd" column="unifiedSocialCreditCd" />
+		<result property="legalPerson" column="legalPerson" />
+		<result property="registeredAmount" column="registeredAmount" />
+		<result property="areaCd" column="areaCd" />
+		<result property="industryCd" column="industryCd" />
+		<result property="companyTypeCd" column="companyTypeCd" />
+		<result property="companySizeCd" column="companySizeCd" />
+		<result property="businessScope" column="businessScope" />
+		<result property="majorBusiness" column="majorBusiness" />
+		<result property="greenDecidedStandardName" column="greenDecidedStandardName" />
+		<result property="greenClass" column="greenClass" />
+	</resultMap>
+
+
+	<select id="queryPersonalList" parameterType="String" resultMap="PersonalList">
+		SELECT personalNo,
+		personalName,
+		documentType,
+		documentNumber,
+		gender,
+		educationDegree,
+		dateOfBirth,
+		personalIndustryCd,
+		personalTypeCd,
+		personalMajorBusiness
+		FROM send_green_thr_customer_commit_shall_info
+	</select>
+	<resultMap id="PersonalList" type="com.hzhx.greenFinance.renHangVo.Personal">
+		<result property="personalNo" column="personalNo" />
+		<result property="personalName" column="personalName" />
+		<result property="documentType" column="documentType" />
+		<result property="documentNumber" column="documentNumber" />
+		<result property="gender" column="gender" />
+		<result property="educationDegree" column="educationDegree" />
+		<result property="dateOfBirth" column="dateOfBirth" />
+		<result property="personalIndustryCd" column="personalIndustryCd" />
+		<result property="personalTypeCd" column="personalTypeCd" />
+		<result property="personalMajorBusiness" column="personalMajorBusiness" />
+	</resultMap>
+
+	<select id="queryLoanList" parameterType="String" resultMap="loanList">
+		SELECT
+		*
+		FROM send_green_thr_standing_book_info
+	</select>
+	<resultMap id="loanList" type="com.hzhx.greenFinance.renHangVo.Loan">
+		<result property="contractNo" column="contractNo" />
+		<result property="loanNo" column="loanNo" />
+		<result property="customerTypeCd" column="customerTypeCd" />
+		<result property="customerNo" column="customerNo" />
+		<result property="projectNo" column="projectNo" />
+		<result property="loanKindCd" column="loanKindCd" />
+		<result property="loanProduct" column="loanProduct" />
+		<result property="loanTypeCd" column="loanTypeCd" />
+		<result property="cnapsCode" column="cnapsCode" />
+		<result property="loanPurpose" column="loanPurpose" />
+		<result property="loanAmount" column="loanAmount" />
+		<result property="loanBalance" column="loanBalance" />
+		<result property="overBalance" column="overBalance" />
+		<result property="timeLimit" column="timeLimit" />
+		<result property="timeLimitUnit" column="timeLimitUnit" />
+		<result property="loanDate" column="loanDate" />
+		<result property="expiringDate" column="expiringDate" />
+		<result property="overdueDate" column="overdueDate" />
+		<result property="fiveLevelChgDate" column="fiveLevelChgDate" />
+		<result property="guaranteeMethodCd" column="guaranteeMethodCd" />
+		<result property="interestRate" column="interestRate" />
+		<result property="repaymentMethod" column="repaymentMethod" />
+		<result property="latestRepaydate" column="latestRepaydate" />
+		<result property="fiveLevelCd" column="fiveLevelCd" />
+		<result property="greenDecidedDate" column="greenDecidedDate" />
+		<result property="pbcGreenClass" column="pbcGreenClass" />
+		<result property="cbrcGreenClass" column="cbrcGreenClass" />
+		<result property="otherGreenDecidedStdNm" column="otherGreenDecidedStdNm" />
+		<result property="otherGreenClass" column="otherGreenClass" />
+		<result property="isAccordWithCreditPolicy" column="isAccordWithCreditPolicy" />
+		<result property="pledgeReloanState" column="pledgeReloanState" />
+		<result property="pledgeReloanChgDate" column="pledgeReloanChgDate" />
+		<result property="pledgeExpiringDate" column="pledgeExpiringDate" />
+		<!-- <association property="reportSceneTypes"
+			column="{loanNo=loanNo,businessDate=businessDate}" select="getReportSceneType" /> -->
+		<collection property="reportSceneType" select="getReportSceneType"
+				column="{loanNo=loanNo,businessDate=businessDate}" ofType="com.hzhx.greenFinance.renHangVo.ReportSceneType">
+			</collection>
+	</resultMap>
+
+	<select id="getReportSceneType" parameterType="java.util.Map"
+		resultMap="ReportSceneTypeList">
+		SELECT businessDate,reportSceneType
+		FROM
+		send_green_thr_standing_book_info WHERE loanNo=#{loanNo} and
+		businessDate=#{businessDate}
+	</select>
+	<resultMap type="com.hzhx.greenFinance.renHangVo.ReportSceneType"
+		id="ReportSceneTypeList">
+		<result property="businessDate" column="businessDate" />
+		<result property="reportSceneType" column="reportSceneType" />
+		<!-- <collection property="reportSceneType" ofType="String">
+			<result property="String" column="reportSceneType" />
+		</collection> -->
+	</resultMap>
+
+	<select id="queryProjectList" parameterType="String" resultMap="projectList">
+		SELECT
+		projectNo,
+		projectCode,
+		projectName,
+		enterpriseNo,
+		projectIndustryCd,
+		totalInvestAmt,
+		capitalSourceCd,
+		address,
+		projectContent,
+		pbcGreenClass,
+		cbrcGreenClass,
+		otherGreenDecidedStdNm,
+		otherGreenClass,
+		greenDecidedStandardName,
+		greenClass
+		FROM
+		send_green_thr_project2_info
+	</select>
+	<resultMap id="projectList" type="com.hzhx.greenFinance.renHangVo.Project">
+		<result property="projectNo" column="projectNo" />
+		<result property="projectCode" column="projectCode" />
+		<result property="projectName" column="projectName" />
+		<result property="projectIndustryCd" column="projectIndustryCd" />
+		<result property="totalInvestAmt" column="totalInvestAmt" />
+		<result property="capitalSourceCd" column="capitalSourceCd" />
+		<result property="address" column="address" />
+		<result property="projectContent" column="projectContent" />
+		<result property="pbcGreenClass" column="pbcGreenClass" />
+		<result property="cbrcGreenClass" column="cbrcGreenClass" />
+		<result property="otherGreenDecidedStdNm" column="otherGreenDecidedStdNm" />
+		<result property="otherGreenClass" column="otherGreenClass" />
+		<result property="greenDecidedStandardName" column="greenDecidedStandardName" />
+		<result property="greenClass" column="greenClass" />
+		<!-- <association property="environmentBenefit" column="projectNo"
+			select="getEnvironmentBenefit">
+		</association> -->
+	</resultMap>
+
+	<select id="getEnvironmentBenefit" parameterType="String"
+		resultMap="environmentBenefit">
+		SELECT *
+		FROM
+		send_green_thr_project2_info WHERE
+		projectNo=#{projectNo}
+	</select>
+	<resultMap id="environmentBenefit"
+		type="com.hzhx.greenFinance.vo.children.EnvironmentBenefit">
+		<association property="environmentBenefitResult"
+			javaType="com.hzhx.greenFinance.vo.children.EnvironmentBenefitResult">
+			<result property="energy" column="energy" />
+			<result property="co2" column="co2" />
+			<result property="cod" column="cod" />
+			<result property="nh" column="nh" />
+			<result property="so2" column="so2" />
+			<result property="nox" column="nox" />
+			<result property="h2o" column="h2o" />
+			<result property="fineParticle" column="fineParticle" />
+			<result property="voc" column="voc" />
+			<result property="nitrogen" column="nitrogen" />
+			<result property="phosphorus" column="phosphorus" />
+		</association>
+		<association property="environmentBenefitBasis"
+			javaType="com.hzhx.greenFinance.vo.children.EnvironmentBenefitBasis">
+			<collection property="environmentBenefitScene" select="getSceneList"
+				column="projectNo" ofType="com.hzhx.greenFinance.vo.children.EnvironmentBenefitScene">
+			</collection>
+		</association>
+	</resultMap>
+
+	<select id="getSceneList" parameterType="String" resultMap="senceList">
+		SELECT *
+		FROM
+		send_green_thr_project2_info WHERE projectNo=#{projectNo}
+	</select>
+	<resultMap type="com.hzhx.greenFinance.vo.children.EnvironmentBenefitScene"
+		id="senceList">
+		<result property="sceneType" column="sceneType" />
+		<collection property="environElement" ofType="environElement"
+			select="getEnvironElement" column="{projectNo=projectNo,sceneType=sceneType}">
+			<result property="elementType" column="elementType" />
+			<result property="environElement" column="environElement" />
+		</collection>
+		<collection property="publicEnvironElement" ofType="publicEnvironElement"
+			select="getPublicEnvironElement" column="{projectNo=projectNo,sceneType=sceneType}">
+			<result property="elementType" column="elementType" />
+			<result property="publicEnvironElement" column="publicEnvironElement" />
+		</collection>
+	</resultMap>
+
+	<select id="getEnvironElement" parameterType="java.util.Map"
+		resultType="com.hzhx.greenFinance.vo.children.EnvironElement">
+		SELECT elementType,environElement
+		FROM
+		send_green_thr_project2_info WHERE projectNo=#{projectNo} and
+		sceneType=#{sceneType} and elementType not in
+		('E00103','E00002','E00105','E00106','E00107','E00063','E00064','E00065','E00066')
+	</select>
+	<select id="getPublicEnvironElement" parameterType="java.util.Map"
+		resultType="com.hzhx.greenFinance.vo.children.PublicEnvironElement">
+		SELECT elementType,publicEnvironElement
+		FROM
+		send_green_thr_project2_info WHERE projectNo=#{projectNo} and
+		sceneType=#{sceneType} and elementType in
+		('E00103','E00002','E00105','E00106','E00107','E00063','E00064','E00065','E00066')
+	</select>
+
+	<select id="queryEnvironmentList" parameterType="String"
+		resultMap="EnvironmentList">
+		select customerNo,
+		customerTypeCd,
+		cnapsCode,
+		riskTypeCd,
+		involvedDate,
+		involvedDesc,
+		involvedReasonNo,
+		dealDate,
+		dealMeasure,
+		reformOverDate,
+		isOverReform
+		from
+		send_green_thr_envrisk_info
+	</select>
+	<resultMap type="com.hzhx.greenFinance.renHangVo.Environment"
+		id="EnvironmentList">
+		<result property="customerNo" column="customerNo" />
+		<result property="customerTypeCd" column="customerTypeCd" />
+		<result property="cnapsCode" column="cnapsCode" />
+		<result property="riskTypeCd" column="riskTypeCd" />
+		<result property="involvedDate" column="involvedDate" />
+		<result property="involvedDesc" column="involvedDesc" />
+		<result property="involvedReasonNo" column="involvedReasonNo" />
+		<result property="dealDate" column="dealDate" />
+		<result property="dealMeasure" column="dealMeasure" />
+		<result property="reformOverDate" column="reformOverDate" />
+		<result property="isOverReform" column="isOverReform" />
+	</resultMap>
+
+
+	<select id="getSendedLoanNoList" parameterType="java.lang.String"
+		resultMap="loanNoList">
+		SELECT loanNo FROM send_green_thr_sended_info
+		<!-- SELECT loanNo FROM send_green_thr_standing_book_info -->
+	</select>
+	<resultMap id="loanNoList" type="com.hzhx.greenFinance.renHangVo.Loan">
+		<result property="loanNo" column="loanNo" />
+	</resultMap>
+</mapper>

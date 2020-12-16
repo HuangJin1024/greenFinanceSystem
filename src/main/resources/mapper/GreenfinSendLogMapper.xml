@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzhx.greenFinance.dao.GreenfinSendLogMapper">
+	<insert id="insert" parameterType="com.hzhx.greenFinance.entity.GreenfinSendLog" useGeneratedKeys="true" keyProperty="greenfinSendLog.id">
+		insert into greenfin_log
+		(requestDate,requestId,requestUrl,reportBank,timestamp,fileName,resultCode,resultMessage,resultData)
+		values
+		(#{greenfinSendLog.requestDate},#{greenfinSendLog.requestId},#{greenfinSendLog.requestUrl},#{greenfinSendLog.reportBank},#{greenfinSendLog.timestamp},#{greenfinSendLog.fileName},#{greenfinSendLog.resultCode},#{greenfinSendLog.resultMessage},#{greenfinSendLog.resultData})
+	</insert>
+</mapper>
