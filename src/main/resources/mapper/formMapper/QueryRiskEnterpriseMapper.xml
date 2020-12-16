@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzhx.greenFinance.dao.formDao.QueryRiskEnterpriseMapper">
+
+	<select id="queryRiskEnterprises" parameterType="String" resultMap="RiskEnterprisesList">
+		select distinct riskEnterpriseType from send_green_thr_envrisk_company_loan_info order by riskEnterpriseType
+	</select>
+	<resultMap type="com.hzhx.greenFinance.vo.totalReport.RiskEnterprises" id="RiskEnterprisesList">
+		<result property="riskEnterpriseType" column="riskEnterpriseType" />
+		<collection property="riskEnterprise" select="getRiskEnterprise"
+			column="riskEnterpriseType" ofType="com.hzhx.greenFinance.vo.totalReport.RiskEnterprise">
+		</collection>
+	</resultMap>
+
+	<select id="getRiskEnterprise" parameterType="String" resultMap="RiskEnterprise">
+		SELECT * FROM send_green_thr_envrisk_company_loan_info WHERE riskEnterpriseType = #{riskEnterpriseType}
+	</select>
+	<resultMap id="RiskEnterprise" type="com.hzhx.greenFinance.vo.totalReport.RiskEnterprise">
+		<result property="indexCode" column="indexCode" />
+		<result property="customerNum" column="customerNum" />
+		<result property="balance" column="balance" />
+		<result property="balanceIncrease" column="balanceIncrease" />
+		<result property="passBalance" column="passBalance" />
+		<result property="followBalance" column="followBalance" />
+		<result property="subBalance" column="subBalance" />
+		<result property="doubtfulBalance" column="doubtfulBalance" />
+		<result property="lossBalance" column="lossBalance" />
+	</resultMap>
+
+</mapper>

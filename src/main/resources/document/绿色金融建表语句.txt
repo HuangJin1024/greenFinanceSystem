@@ -1,0 +1,206 @@
+-- 企业信息
+CREATE TABLE IF NOT EXISTS test.send_green_thr_comapny_info (
+  organization varchar(200) COMMENT '机构',
+  customerNo varchar(200) COMMENT '客户唯一编号',
+  enterpriseName varchar(500) COMMENT '企业名称',
+  unifiedSocialCreditCd varchar(100) COMMENT '统一社会信用代码',
+  legalPerson varchar(128) COMMENT '法定代表人',
+  registeredAmount varchar(64) COMMENT '注册资本（元）',
+  registeredAreaCd varchar(8) COMMENT '注册地区',
+  industryCd varchar(8) COMMENT '国民经济行业',
+  ownershipTypeCd varchar(8) COMMENT '企业类型 D0020001：国有企业D0020002：集体企业D0020003：股份合作企业D0020004：私营企业D0020005：三资企业（港、澳、台投资企业）D0020006：外商投资企业D0020007：个体经营D0020008：其他',
+  scaleTypeCd varchar(8)  COMMENT '企业规模 D0030001：大型企业D0030002：中型企业D0030003：小型企业D0030004：微型企业',
+  businessScope varchar(4000)   COMMENT '经营范围',
+  majorBusiness varchar(1000)   COMMENT '主营业务',
+  unifiedCreditFlag varchar(8)  COMMENT '统一授信标志 D0010001:是D0010002:否',
+  creditLimit varchar(64) COMMENT '授信额度',
+  businessDate varchar(8)  COMMENT '信息变更日',
+  gdate varchar(200) COMMENT '增量日期 yyyyMMdd'
+)
+
+
+--个人信息
+CREATE TABLE IF NOT EXISTS test.send_green_thr_customer_info (
+  organization varchar(200) COMMENT '机构 ',
+  customerNo varchar(200) COMMENT '客户唯一编号',
+  individualName varchar(500) COMMENT '姓名',
+  documentType varchar(100) COMMENT '个人证件类型',
+  documentNumber varchar(128) COMMENT '证件号码',
+  gender varchar(64) COMMENT '性别',
+  educationDegree varchar(8) COMMENT '学历',
+  birthday varchar(8) COMMENT '出生日期',
+  industryCd varchar(8) COMMENT '所属行业',
+  careerTypeCd varchar(8)  COMMENT '职业类型',
+  career varchar(4000)   COMMENT '职业',
+  majorBusiness varchar(1000)   COMMENT '主营业务',
+  isFarmer varchar(8)  COMMENT '是否农户',
+  businessDate varchar(64) COMMENT '信息变更日',
+  gdate varchar(200) COMMENT '增量日期 yyyyMMdd'
+)
+
+
+
+--贷款信息
+CREATE TABLE IF NOT EXISTS test.send_green_thr_loan_info (
+  organization varchar(200) COMMENT '机构 ',
+  businessTypeCd varchar(8) comment '报送场景类型',
+  businessDate  varchar(8) comment '业务日期',
+  contractNo  varchar(32) comment '贷款合同号',
+  loanNo  varchar(32) comment '借据号',
+  customerTypeCd  varchar(8) comment '客户类型',
+  customerNo  varchar(200) comment '客户唯一编号',
+  projectNo  varchar(32) comment '项目唯一编号',
+  loanKindCd  varchar(8) comment '贷款类型',
+  loanProduct  varchar(256) comment '贷款产品名称',
+  businessOrg  varchar(15) comment '业务发生机构',
+  loanPurposeDesc  varchar(1024) comment '贷款用途描述',
+  loanAmount  varchar(64) comment '贷款金额',
+  loanBalance  varchar(64) comment '贷款余额',
+  timeLimit  varchar(64) comment '贷款期限',
+  loanDate  varchar(8) comment '放款日',
+  expiringDate  varchar(8) comment '到期日',
+  overdueDate  varchar(8) comment '逾期日',
+  overBalance  varchar(64) comment '逾期金额',
+  guaranteeMethodCd  varchar(8) comment '担保方式',
+  interestRate  varchar(64) comment '执行利率（年化）',
+  repaymentMethodCd  varchar(8) comment '还款方式',
+  latestRepayDate  varchar(8) comment '最近还款日',
+  fiveLevelCd  varchar(8) comment '五级分类',
+  industryCd  varchar(32) comment '投向行业',
+  isGreen  varchar(8) comment '是否绿色贷款',
+  greenDecidedDate  varchar(8) comment '绿色认定日期',
+  cbrcGreenClass  varchar(32) comment '银保监会绿色认定分类代码',
+  pbcGreenClass  varchar(32) comment '人民银行绿色认定分类代码',
+  localGreenClass  varchar(32) comment '地方绿色认定分类代码',
+  isEnvironmentalInterest  varchar(8) comment '是否环境权益融资',
+  environmentalInterestCd  varchar(8) comment '环境权益融资分类',
+  gdate varchar(200) COMMENT '增量日期 yyyyMMdd'
+)
+
+
+--绿色项目信息
+CREATE TABLE IF NOT EXISTS test.send_green_thr_project_info (
+  organization varchar(200) COMMENT '机构 ',
+  projectNo    varchar(32) comment '项目唯一编号',
+  projectCode    varchar(200) comment '项目代码',
+  projectName    varchar(256) comment '项目名称',
+  customerNo    varchar(200) comment '客户唯一编号',
+  projectIndustryCd varchar(32)   comment '投向行业',    
+  totalInvestAmount varchar(64) comment '项目总投资',      
+  capitalSourceCd   varchar(8)    comment '资金来源', 
+  projectLocationCd varchar(8)    comment '项目所在地',   
+  projectAddress    varchar(512)  comment '建设地址',  
+  projectContent    varchar(4000) comment '建设内容与规模',   
+  cbrcGreenClass    varchar(32)   comment '银保监会绿色认定分类代码', 
+  pbcGreenClass     varchar(32)   comment '人民银行绿色认定分类代码',
+  localGreenClass   varchar(32)   comment '地方绿色认定分类代码',  
+  energy       varchar(64) comment '标准煤（吨）',
+  co2       varchar(64) comment '二氧化碳当量（吨）',
+  cod       varchar(64) comment '化学需氧量（吨）',
+  nh       varchar(64) comment '氨氮（吨）',
+  so2       varchar(64) comment '二氧化硫（吨）',
+  nox       varchar(64) comment '氮氧化物（吨）',
+  h2o       varchar(64) comment '节水（吨）',
+  fineParticle      varchar(64) comment '细颗粒物（吨）', 
+  voc       varchar(64) comment '挥发性有机物（吨）',
+  nitrogen       varchar(64) comment '总氮（吨）',
+  phosphorus       varchar(64) comment '总磷（吨）',
+  sceneType       varchar(10) comment '环境效益测算场景类型',
+  elementType       varchar(6) comment '要素类型代码',
+  environElement  varchar(200)  comment '要素值',
+  publicEnvironElement varchar(200)  comment '公共要素值',
+  businessDate varchar(8)         comment '信息变更日',
+  gdate varchar(200) COMMENT '增量日期 yyyyMMdd'
+)
+
+
+--绿色信用证信息
+CREATE TABLE IF NOT EXISTS test.send_green_thr_credit_info (
+  organization varchar(200) COMMENT '机构 ',
+  businessTypeCd  varchar(8) comment'报送业务场景',
+  businessDate  varchar(8) comment'业务日期',
+  letterCreditNo  varchar(32) comment'信用证编号',
+  contractNo  varchar(200) comment'合同号',
+  businessOrg  varchar(15) comment'业务发生机构',
+  customerNo  varchar(200) comment'客户统一编号',
+  letterCreditAmount  varchar(64) comment'信用证金额',
+  letterCreditBalance  varchar(64) comment'信用证余额',
+  issueDate  varchar(8) comment'信用证开证日期',
+  expiringDate  varchar(8) comment'信用证到期日期',
+  closeDate  varchar(8) comment'信用证闭卷日期',
+  revocationDate  varchar(8) comment'信用证撤销日期',
+  termTypeCd  varchar(8) comment'信用证期限类型',
+  fiveLevelCd  varchar(8) comment'资产风险分类',
+  guaranteeMethodCd  varchar(8) comment'担保方式',
+  marginLevel  varchar(64) comment'保证金比例',
+  greenDecidedDate  varchar(8) comment'绿色认定日期',
+  cbrcGreenClass  varchar(32) comment'银保监会绿色认定分类代码',
+  isEnvironmentalInterest  varchar(8) comment'是否环境权益融资',
+  environmentalInterestCd  varchar(8) comment'环境权益融资分类',
+  gdate varchar(200) COMMENT '增量日期 yyyyMMdd'
+)
+
+
+--绿色银行承兑汇票信息
+CREATE TABLE IF NOT EXISTS test.send_green_thr_acceptance_bill_info (
+  organization varchar(200) COMMENT '机构 ',
+  businessTypeCd   varchar(8) comment'报送业务场景',
+  businessDate   varchar(8) comment'业务日期',
+  billNo   varchar(200) comment'票据号码',
+  acceptanceNo   varchar(200) comment'承兑协议编号',
+  businessOrg   varchar(15) comment'业务发生机构',
+  customerNo   varchar(200) comment'客户唯一编号',
+  billAmount   varchar(64) comment'出票金额',
+  issueDate   varchar(8) comment'出票日期',
+  expiringDate   varchar(8) comment'到期日期',
+  paymentDate   varchar(8) comment'付款日期',
+  payingBankName   varchar(200) comment'付款行名称',
+  payeeName   varchar(200) comment'收款人名称',
+  payeeBankName   varchar(200) comment'收款人开户行名称',
+  fiveLevelCd   varchar(8) comment'五级分类',
+  guaranteeMethodCd   varchar(8) comment'担保方式',
+  marginLevel   varchar(64) comment'保证金比例',
+  greenDecidedDate   varchar(8) comment'绿色认定日期',
+  cbrcGreenClass   varchar(32) comment'银保监会绿色认定分类代码',
+  isEnvironmentalInterest varchar(8) comment'是否环境权益融资',  
+  environmentalInterestCd varchar(8) comment'环境权益融资分类',  
+  gdate varchar(200) COMMENT '增量日期 yyyyMMdd'
+)
+
+
+--绿色债券投资信息
+CREATE TABLE IF NOT EXISTS test.send_green_thr_bond_investment_info (
+  organization varchar(200) COMMENT '机构 ',
+  businessTypeCd  varchar(8) comment'报送业务场景',
+  businessDate  varchar(8) comment'业务日期',
+  tradeNo  varchar(200) comment'交易编号',
+  businessOrg  varchar(15) comment'业务发生机构',
+  bondTypeCd  varchar(8) comment'债券类型',
+  bondCode  varchar(200) comment'债券代码',
+  bondName  varchar(200) comment'债券名称',
+  parValue  varchar(64) comment'票面金额',
+  couponRate  varchar(64) comment'票面利率',
+  issueDate  varchar(8) comment'发行日期',
+  expiringDate  varchar(8) comment'到期日',
+  repaymentMethodCd  varchar(8) comment'还本方式',
+  timeLimit  varchar(64) comment'还本期限',
+  creditRating  varchar(10) comment'资产评级',
+  creditRatingAgency  varchar(500) comment'评级机构',
+  issuerName  varchar(500) comment'发行人名称',
+  issuerCountryCd  varchar(8) comment'发行人所属国家',
+  issuerIndustryCd  varchar(8) comment'发行人所属行业',
+  bondIndustryCd  varchar(8) comment'最终投向行业',
+  tradeValueDate  varchar(8) comment'交易起息日',
+  fiveLevelCd  varchar(8) comment'五级分类',
+  remainingParValue  varchar(64) comment'剩余面值',
+  businessBalance  varchar(64) comment'业务余额',
+  defaultAmount  varchar(64) comment'违约金额',
+  greenDecidedDate  varchar(8) comment'绿色认定日期',
+  cbrcGreenClass  varchar(32) comment'银保监会绿色认定分类代码',
+  isEnvironmentalInterest varchar(8)  comment'是否环境权益融资',
+  environmentalInterestCd varchar(8)  comment'环境权益融资分类',
+  isConstructionBond      varchar(8)  comment'是否项目建设债券',
+  gdate varchar(200) COMMENT '增量日期 yyyyMMdd'
+)
+
+

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzhx.greenFinance.dao.QueryRHCLInfoMapper">
+	<select id="queryCustomersLoans" parameterType="String" resultMap="CustomerList">
+		SELECT customerNo,
+		customerName,
+		unifiedSocialCreditCd,
+		legalPerson,
+		registeredAmount,
+		registeredAreaCd,
+		foundedDate,
+		businessScope,
+		majorBusiness,
+		industryCd,
+		companyTypeCd,
+		companySizeCd,
+		employeeNumber,
+		operatingIncome,
+		totalAssets,
+		basicDepositBankFlag,
+		basicDepositAccount,
+		basicDepositBankName,
+		basicDepositBankCd,
+		unifiedCreditFlag,
+		creditLimit from send_green_thr_credit_company_info
+	</select>
+	<resultMap id="CustomerList" type="com.hzhx.greenFinance.renHangVo.Customer">
+		<result property="customerNo" column="customerNo" />
+		<result property="customerName" column="customerName" />
+		<result property="unifiedSocialCreditCd" column="unifiedSocialCreditCd" />
+		<result property="legalPerson" column="legalPerson" />
+		<result property="registeredAmount" column="registeredAmount" />
+		<result property="registeredAreaCd" column="registeredAreaCd" />
+		<result property="foundedDate" column="foundedDate" />
+		<result property="businessScope" column="businessScope" />
+		<result property="majorBusiness" column="majorBusiness" />
+		<result property="industryCd" column="industryCd" />
+		<result property="companyTypeCd" column="companyTypeCd" />
+		<result property="companySizeCd" column="companySizeCd" />
+		<result property="employeeNumber" column="employeeNumber" />
+		<result property="operatingIncome" column="operatingIncome" />
+		<result property="totalAssets" column="totalAssets" />
+		<result property="basicDepositBankFlag" column="basicDepositBankFlag" />
+		<result property="basicDepositAccount" column="basicDepositAccount" />
+		<result property="basicDepositBankName" column="basicDepositBankName" />
+		<result property="basicDepositBankCd" column="basicDepositBankCd" />
+		<association property="customerCredit" column="customerNo"
+			javaType="com.hzhx.greenFinance.renHangVo.CustomerCredit">
+			<result property="unifiedCreditFlag" column="unifiedCreditFlag" />
+			<result property="creditLimit" column="creditLimit" />
+		</association>
+		<collection property="shareholders" select="getshareholders"
+			column="customerNo" ofType="com.hzhx.greenFinance.renHangVo.Shareholder">
+		</collection>
+		<collection property="loans" select="getloans" column="customerNo"
+			ofType="com.hzhx.greenFinance.renHangVo.LoanCl">
+		</collection>
+	</resultMap>
+
+	<select id="getshareholders" parameterType="String" resultMap="shareholderList">
+		SELECT shareholderName,capitalContributionAmount,capitalContributionProportion from send_green_thr_credit_company_info where customerNo = #{customerNo}
+	</select>
+	<resultMap id="shareholderList" type="com.hzhx.greenFinance.renHangVo.Shareholder">
+		<result property="shareholderName" column="shareholderName" />
+		<result property="capitalContributionAmount" column="capitalContributionAmount" />
+		<result property="capitalContributionProportion" column="capitalContributionProportion" />
+	</resultMap>
+
+	<select id="getloans" parameterType="String" resultMap="loanList">
+		SELECT * from send_green_thr_taizhang_info where customerNo = #{customerNo}
+	</select>
+	<resultMap id="loanList" type="com.hzhx.greenFinance.renHangVo.LoanCl">
+		<result property="loanNo" column="loanNo" />
+		<result property="businessOrgCd" column="businessOrgCd" />
+		<result property="contractNo" column="contractNo" />
+		<result property="loanTypeCd" column="loanTypeCd" />
+		<result property="loanProduct" column="loanProduct" />
+		<result property="loanTermTypeCd" column="loanTermTypeCd" />
+		<result property="loanPurposeCd" column="loanPurposeCd" />
+		<result property="loanAmount" column="loanAmount" />
+		<result property="loanBalance" column="loanBalance" />
+		<result property="timeLimit" column="timeLimit" />
+		<result property="guaranteeTypeCd" column="guaranteeTypeCd" />
+		<result property="interestRate" column="interestRate" />
+		<result property="repaymentMethodCd" column="repaymentMethodCd" />
+		<result property="loanDate" column="loanDate" />
+		<result property="expiringDate" column="expiringDate" />
+		<result property="loanState" column="loanState" />
+		<result property="latestRepaydate" column="latestRepaydate" />
+		<result property="overdueDate" column="overdueDate" />
+		<result property="overBalance" column="overBalance" />
+		<result property="fiveCategoryCd" column="fiveCategoryCd" />
+		<result property="fiveCategoryChgDate" column="fiveCategoryChgDate" />
+	</resultMap>
+
+</mapper>

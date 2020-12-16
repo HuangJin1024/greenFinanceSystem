@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzhx.greenFinance.dao.formDao.QueryGreenFinanceMapper">
+
+	<select id="queryGreenFinances" parameterType="String" resultMap="GreenFinancesList">
+		select distinct greenFinanceType from send_green_thr_finance_stat order by greenFinanceType
+	</select>
+	<resultMap type="com.hzhx.greenFinance.vo.totalReport.GreenFinances" id="GreenFinancesList">
+		<result property="greenFinanceType" column="greenFinanceType" />
+		<collection property="greenFinance" select="getGreenFinance"
+			column="greenFinanceType" ofType="com.hzhx.greenFinance.vo.totalReport.GreenFinance">
+		</collection>
+	</resultMap>
+
+	<select id="getGreenFinance" parameterType="String" resultMap="greenFinance">
+		SELECT * FROM send_green_thr_finance_stat WHERE greenFinanceType = #{greenFinanceType}
+	</select>
+	<resultMap id="greenFinance" type="com.hzhx.greenFinance.vo.totalReport.GreenFinance">
+		<result property="indexCode" column="indexCode" />
+		<result property="greenBalance" column="greenBalance" />
+		<result property="passBalance" column="passBalance" />
+		<result property="followBalance" column="followBalance" />
+		<result property="subBalance" column="subBalance" />
+		<result property="doubtfulBalance" column="doubtfulBalance" />
+		<result property="lossBalance" column="lossBalance" />
+		<result property="energy" column="energy" />
+		<result property="co2" column="co2" />
+		<result property="cod" column="cod" />
+		<result property="nh" column="nh" />
+		<result property="so2" column="so2" />
+		<result property="nox" column="nox" />
+		<result property="h2o" column="h2o" />
+		<result property="voc" column="voc" />
+		<result property="nitrogen" column="nitrogen" />
+		<result property="phosphorus" column="phosphorus" />
+		<result property="bondBalance" column="bondBalance" />
+		<result property="billBalance" column="billBalance" />
+		<result property="creditBalance" column="creditBalance" />
+	</resultMap>
+
+</mapper>

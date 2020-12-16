@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzhx.greenFinance.dao.formDao.QueryGreenOperateMapper">
+
+	<select id="queryGreenOperates" parameterType="String" resultMap="GreenOperatesList">
+		select distinct greenOperateType from send_green_thr_bank_greenoperation order by greenOperateType
+	</select>
+	<resultMap type="com.hzhx.greenFinance.vo.totalReport.GreenOperates" id="GreenOperatesList">
+		<result property="greenOperateType" column="greenOperateType" />
+		<collection property="greenOperate" select="getGreenOperate"
+			column="greenOperateType" ofType="com.hzhx.greenFinance.vo.totalReport.GreenOperate">
+		</collection>
+	</resultMap>
+
+	<select id="getGreenOperate" parameterType="String" resultMap="GreenOperate">
+		SELECT * FROM send_green_thr_bank_greenoperation WHERE greenOperateType = #{greenOperateType}
+	</select>
+	<resultMap id="GreenOperate" type="com.hzhx.greenFinance.vo.totalReport.GreenOperate">
+		<result property="indexCode" column="indexCode" />
+		<result property="yearTotalNum" column="yearTotalNum" />
+		<result property="lastYearTotalNum" column="lastYearTotalNum" />
+	</resultMap>
+
+</mapper>

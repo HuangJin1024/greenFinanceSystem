@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzhx.greenFinance.dao.QueryBillInfoMapper">
+	<select id="queryCustomerBillInfoCount" resultType="java.lang.Integer">
+		<!-- select count(*) from (select distinct customerNo,'D0090001' as
+		customerTypeCd from
+		send_green_thr_comapny_info) t -->
+		SELECT count(*) from (select DISTINCT customerNo from
+		send_green_thr_acceptance_bill_info) t
+	</select>
+	<select id="queryCustomerBillInfoByPage" parameterType="com.hzhx.greenFinance.config.PageBean"
+		resultMap="CustomerBillInfoList">
+		<!-- select distinct customerNo,'D0090001' as
+		customerTypeCd from
+		send_green_thr_comapny_info limit ${offset}, ${limit} -->
+		select customerNo,'D0090001' as customerTypeCd from send_green_thr_comapny_info
+		where customerNo in(
+		SELECT customerNo from (select DISTINCT customerNo from
+		send_green_thr_acceptance_bill_info) b) limit
+		${offset}, ${limit}
+	</select>
+	<select id="queryCustomerBillInfo" parameterType="String"
+		resultMap="CustomerBillInfoList">
+		select customerNo,'D0090001' as customerTypeCd from send_green_thr_comapny_info
+		where customerNo in (select DISTINCT customerNo from
+		send_green_thr_acceptance_bill_info)
+	</select>
+	<resultMap type="com.hzhx.greenFinance.vo.CustomerBillInfo"
+		id="CustomerBillInfoList">
+		<result property="customerNo" column="customerNo" />
+		<result property="customerTypeCd" column="customerTypeCd" />
+		<association property="enterpriseInfo" column="customerNo"
+			select="getEnterpriseInfo" />
+		<collection property="bill" select="getBill" column="customerNo"
+			ofType="com.hzhx.greenFinance.vo.children.Bill">
+		</collection>
+	</resultMap>
+
+	<select id="getEnterpriseInfo" parameterType="String" resultMap="EnterpriseInfo">
+		SELECT distinct customerNo,enterpriseName,
+		unifiedSocialCreditCd,
+		legalPerson,
+		registeredAmount,
+		registeredAreaCd,
+		industryCd,
+		ownershipTypeCd,
+		scaleTypeCd,
+		businessScope,
+		majorBusiness,
+		unifiedCreditFlag,
+		creditLimit
+		FROM send_green_thr_comapny_info WHERE customerNo = #{customerNo}
+	</select>
+	<resultMap id="EnterpriseInfo"
+		type="com.hzhx.greenFinance.vo.children.EnterpriseInfo">
+		<result property="enterpriseName" column="enterpriseName" />
+		<result property="unifiedSocialCreditCd" column="unifiedSocialCreditCd" />
+		<result property="legalPerson" column="legalPerson" />
+		<result property="registeredAmount" column="registeredAmount" />
+		<result property="registeredAreaCd" column="registeredAreaCd" />
+		<result property="industryCd" column="industryCd" />
+		<result property="ownershipTypeCd" column="ownershipTypeCd" />
+		<result property="scaleTypeCd" column="scaleTypeCd" />
+		<result property="businessScope" column="businessScope" />
+		<result property="majorBusiness" column="majorBusiness" />
+		<result property="unifiedCreditFlag" column="unifiedCreditFlag" />
+		<result property="creditLimit" column="creditLimit" />
+	</resultMap>
+
+	<select id="getBill" parameterType="String" resultMap="billList">
+		SELECT
+		bill.*
+		FROM send_green_thr_acceptance_bill_info
+		bill WHERE bill.customerNo =
+		#{customerNo}
+	</select>
+	<resultMap id="billList" type="com.hzhx.greenFinance.vo.children.Bill">
+		<result property="billNo" column="billNo" />
+		<result property="acceptanceNo" column="acceptanceNo" />
+		<result property="businessOrg" column="businessOrg" />
+		<result property="billAmount" column="billAmount" />
+		<result property="issueDate" column="issueDate" />
+		<result property="expiringDate" column="expiringDate" />
+		<result property="paymentDate" column="paymentDate" />
+		<result property="payingBankName" column="payingBankName" />
+		<result property="payeeName" column="payeeName" />
+		<result property="payeeBankName" column="payeeBankName" />
+		<result property="fiveLevelCd" column="fiveLevelCd" />
+		<result property="guaranteeMethodCd" column="guaranteeMethodCd" />
+		<result property="marginLevel" column="marginLevel" />
+		<result property="greenDecidedDate" column="greenDecidedDate" />
+		<result property="cbrcGreenClass" column="cbrcGreenClass" />
+		<result property="isEnvironmentalInterest" column="isEnvironmentalInterest" />
+		<result property="environmentalInterestCd" column="environmentalInterestCd" />
+		<association property="businessType"
+			column="{billNo=billNo,businessDate=businessDate}"
+			select="getBusinessType" />
+	</resultMap>
+
+	<select id="getBusinessType" parameterType="java.util.Map"
+		resultMap="BusinessTypecdList">
+		SELECT businessDate,businessTypeCd
+		FROM
+		send_green_thr_acceptance_bill_info WHERE billNo=#{billNo} and
+		businessDate=#{businessDate}
+	</select>
+	<resultMap type="com.hzhx.greenFinance.vo.children.BusinessType"
+		id="BusinessTypecdList">
+		<result property="businessDate" column="businessDate" />
+		<collection property="businessTypeCd" ofType="String">
+			<result property="String" column="businessTypeCd" />
+		</collection>
+	</resultMap>
+	<!-- 每日增量 -->
+	<select id="queryDailyCount" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		SELECT count(*) from (select DISTINCT customerNo from
+		send_green_thr_acceptance_bill_info where gdate = #{dataDate}) t
+	</select>
+	<select id="queryDailyInfoByPage" resultMap="CustomerBillInfoList">
+		select customerNo,'D0090001' as customerTypeCd from send_green_thr_comapny_info
+		where customerNo in(
+		SELECT customerNo from (select DISTINCT customerNo from
+		send_green_thr_acceptance_bill_info where gdate = #{dataDate}) b)
+	</select>
+</mapper>

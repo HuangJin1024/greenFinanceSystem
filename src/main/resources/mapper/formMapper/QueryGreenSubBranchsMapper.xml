@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzhx.greenFinance.dao.formDao.QueryGreenSubBranchsMapper">
+
+	<select id="queryGreenSubBranchs" parameterType="String" resultMap="GreenSubBranchsList">
+		select distinct subBranchName,buildTime,staffNum from send_green_thr_bank_branch_finance_stat
+	</select>
+	<resultMap type="com.hzhx.greenFinance.vo.totalReport.GreenSubBranch" id="GreenSubBranchsList">
+		<result property="subBranchName" column="subBranchName" />
+		<result property="buildTime" column="buildTime" />
+		<result property="staffNum" column="staffNum" />
+		<collection property="loanStats" select="getLoanStats"
+			column="{subBranchName=subBranchName,buildTime=buildTime,staffNum=staffNum}" ofType="com.hzhx.greenFinance.vo.totalReport.LoanStat">
+		</collection>
+	</resultMap>
+
+	<select id="getLoanStats" parameterType="java.util.Map" resultMap="LoanStat">
+		SELECT * FROM send_green_thr_bank_branch_finance_stat WHERE subBranchName = #{subBranchName}
+	</select>
+	<resultMap id="LoanStat" type="com.hzhx.greenFinance.vo.totalReport.LoanStat">
+		<result property="customerTypeCd" column="customerTypeCd" />
+		<result property="cbrcGreenBalance" column="cbrcGreenBalance" />
+		<result property="cbrcBalanceIncrease" column="cbrcBalanceIncrease" />
+		<result property="cbrcCustomerNum" column="cbrcCustomerNum" />
+		<result property="cbrcCustomerIncrease" column="cbrcCustomerIncrease" />
+		<result property="cbrcGreenBalanceRate" column="cbrcGreenBalanceRate" />
+		<result property="localGreenBalance" column="localGreenBalance" />
+		<result property="localBalanceIncrease" column="localBalanceIncrease" />
+		<result property="localCustomerNum" column="localCustomerNum" />
+		<result property="localCustomerIncrease" column="localCustomerIncrease" />
+		<result property="localGreenBalanceRate" column="localGreenBalanceRate" />
+		<result property="totalBalance" column="totalBalance" />
+		<result property="totalBalanceIncrease" column="totalBalanceIncrease" />
+		<result property="totalCustomerNum" column="totalCustomerNum" />
+		<result property="totalCustomerIncrease" column="totalCustomerIncrease" />
+		<result property="greenOnBalance" column="greenOnBalance" />
+		<result property="greenOnBalanceIncrease" column="greenOnBalanceIncrease" />
+		<result property="greenOnCustomerNum" column="greenOnCustomerNum" />
+		<result property="greenOnCustomerIncrease" column="greenOnCustomerIncrease" />
+		<result property="totalOnBalance" column="totalOnBalance" />
+		<result property="totalOnBalanceIncrease" column="totalOnBalanceIncrease" />
+		<result property="totalOnCustomerNum" column="totalOnCustomerNum" />
+		<result property="totalOnCustomerIncrease" column="totalOnCustomerIncrease" />
+		<result property="greenOffBalance" column="greenOffBalance" />
+		<result property="greenOffBalanceIncrease" column="greenOffBalanceIncrease" />
+		<result property="greenOffCustomerNum" column="greenOffCustomerNum" />
+		<result property="greenOffCustomerIncrease" column="greenOffCustomerIncrease" />
+		<result property="totalOffBalance" column="totalOffBalance" />
+		<result property="totalOffBalanceIncrease" column="totalOffBalanceIncrease" />
+		<result property="totalOffCustomerNum" column="totalOffCustomerNum" />
+		<result property="totalOffCustomerIncrease" column="totalOffCustomerIncrease" />
+	</resultMap>
+
+</mapper>
