@@ -1,0 +1,146 @@
+--绿色融资统计表
+create table if not exists test.send_green_thr_finance_stat(
+greenFinanceType varchar(200) comment'报表指标类型',
+indexCode varchar(200) comment'指标代码',
+greenBalance varchar(200) comment'绿色信贷余额',
+passBalance varchar(200) comment'正常类贷款余额',
+followBalance varchar(200) comment'关注类贷款余额',
+subBalance varchar(200) comment'次级类贷款余额',
+doubtfulBalance varchar(200) comment'可疑类贷款余额',
+lossBalance varchar(200) comment'损失类贷款余额',
+energy varchar(200) comment'标准煤',
+co2 varchar(200) comment'二氧化碳当量',
+cod varchar(200) comment'化学需氧量',
+nh varchar(200) comment'氨氮',
+so2 varchar(200) comment'二氧化硫',
+nox varchar(200) comment'氮氧化物',
+h2o varchar(200) comment'节水',
+fineParticle varchar(200) comment'细颗粒物（PM2.5）',
+voc varchar(200) comment'挥发性有机物',
+nitrogen varchar(200) comment'总氮',
+phosphorus varchar(200) comment'总磷',
+bondBalance varchar(200) comment'非金融企业绿色债券投资余额',
+billBalance varchar(200) comment'绿色银行承兑汇票余额',
+creditBalance varchar(200) comment'绿色信用证余额',
+organization varchar(200) COMMENT '机构',
+gdate varchar(200) COMMENT '增量日期 yyyyMMdd'
+)
+partitioned by(
+    cdate varchar(200)
+ )stored as PARQUET;
+
+--环境、安全等重大风险企业信贷情况统计表
+create table if not exists test.send_green_thr_envrisk_company_loan_info(
+riskEnterpriseType varchar(200) comment'报表指标类型',
+indexCode varchar(200) comment'指标代码',
+customerNum varchar(200) comment'客户数',
+balance varchar(200) comment'贷款余额',
+balanceIncrease varchar(200) comment'比年初增减额',
+passBalance varchar(200) comment'正常类贷款余额',
+followBalance varchar(200) comment'关注类贷款余额',
+subBalance varchar(200) comment'次级类贷款余额',
+doubtfulBalance varchar(200) comment'可疑类贷款余额',
+lossBalance varchar(200) comment'损失类贷款余额',
+organization varchar(200) COMMENT '机构',
+gdate varchar(200) COMMENT '增量日期 yyyyMMdd'
+)
+partitioned by(
+    cdate varchar(200)
+ )stored as PARQUET;
+
+--银行机构绿色运营统计表
+create table if not exists test.send_green_thr_bank_greenoperation(
+greenOperateType varchar(200) comment'报表指标类型',
+indexCode varchar(200) comment'指标代码',
+yearTotalNum varchar(200) comment'当年累计发生数',
+lastYearTotalNum varchar(200) comment'去年累计发生数',
+organization varchar(200) COMMENT '机构',
+gdate varchar(200) COMMENT '增量日期 yyyyMMdd'
+)
+partitioned by(
+    cdate varchar(200)
+ )stored as PARQUET;
+
+--银行机构区域融资情况统计表
+create table if not exists test.send_green_thr_bank_finance_stat(
+customerTypeCd varchar(200) comment'客户主体类型',
+areaCode varchar(200) comment'区域代码',
+greenBalance varchar(200) comment'绿色信贷余额',
+greenOnBalance varchar(200) comment'表内绿色投资余额',
+greenOffBalance varchar(200) comment'表外绿色融资余额',
+totalBalance varchar(200) comment'各项贷款合计',
+totalOnBalance varchar(200) comment'表内投资合计',
+totalOffBalance varchar(200) comment'表外融资合计',
+greenCustomerNum varchar(200) comment'绿色信贷客户数',
+greenOnCustomerNum varchar(200) comment'表内绿色投资客户数',
+greenOffCustomerNum varchar(200) comment'表外绿色融资客户数',
+totalCustomerNum varchar(200) comment'各项贷款客户数',
+totalOnCustomerNum varchar(200) comment'表内投资客户数',
+totalOffCustomerNum varchar(200) comment'表外融资客户数',
+organization varchar(200) COMMENT '机构',
+gdate varchar(200) COMMENT '增量日期 yyyyMMdd'
+)
+partitioned by(
+    cdate varchar(200)
+ )stored as PARQUET;
+
+--银行机构绿色专营支行融资情况监测表
+create table if not exists test.send_green_thr_bank_branch_finance_stat(
+subBranchName varchar(200) comment'绿色专营支行标准全称',
+buildTime varchar(200) comment'绿色专营支行成立时间',
+staffNum varchar(200) comment'绿色专职人员数',
+customerTypeCd varchar(200) comment'客户主体类型',
+cbrcGreenBalance varchar(200) comment'支行绿色贷款余额(银保监口径)',
+cbrcBalanceIncrease varchar(200) comment'支行绿色贷款余额比去年年末(银保监口径)',
+cbrcCustomerNum varchar(200) comment'支行绿色信贷户数(银保监口径)',
+cbrcCustomerIncrease varchar(200) comment'支行绿色信贷户数比去年年末(银保监口径',
+cbrcGreenBalanceRate varchar(200) comment'绿色贷款余额占比(银保监口径)',
+localGreenBalance varchar(200) comment'支行绿色贷款余额（地方口径）',
+localBalanceIncrease varchar(200) comment'支行绿色贷款余额比去年年末(地方口径)',
+localCustomerNum varchar(200) comment'支行绿色信贷户数（地方口径）',
+localCustomerIncrease varchar(200) comment'支行绿色信贷户数比去年年末(地方口径)',
+localGreenBalanceRate varchar(200) comment'支行绿色贷款余额占比（地方口径）',
+totalBalance varchar(200) comment'支行各项贷款余额',
+totalBalanceIncrease varchar(200) comment'支行各项贷款余额比去年年末',
+totalCustomerNum varchar(200) comment'支行各项贷款户数',
+totalCustomerIncrease varchar(200) comment'支行各项贷款户数比去年年末',
+greenOnBalance varchar(200) comment'支行表内绿色投资余额(银保监口径)',
+greenOnBalanceIncrease varchar(200) comment'支行表内绿色投资余额比去年年末(银保监口径)',
+greenOnCustomerNum varchar(200) comment'支行表内绿色投资户数(银保监口径)',
+greenOnCustomerIncrease varchar(200) comment'支行表内绿色投资户数比去年年末(银保监口径)',
+totalOnBalance varchar(200) comment'支行表内投资总余额',
+totalOnBalanceIncrease varchar(200) comment'支行表内投资总余额比去年年末',
+totalOnCustomerNum varchar(200) comment'支行表内投资总户数',
+totalOnCustomerIncrease varchar(200) comment'支行表内投资总户数比去年年末',
+greenOffBalance varchar(200) comment'支行表外绿色融资余额(银保监口径)',
+greenOffBalanceIncrease varchar(200) comment'支行表外绿色融资余额比去年年末(银保监口径)',
+greenOffCustomerNum varchar(200) comment'支行表外绿色融资户数(银保监口径)',
+greenOffCustomerIncrease varchar(200) comment'支行表外绿色融资户数比去年年末(银保监口径)',
+totalOffBalance varchar(200) comment'支行表外融资总余额',
+totalOffBalanceIncrease varchar(200) comment'支行表外融资总余额比去年年末',
+totalOffCustomerNum varchar(200) comment'支行表外融资总户数',
+totalOffCustomerIncrease varchar(200) comment'支行表外融资总户数比去年年末',
+organization varchar(200) COMMENT '机构',
+gdate varchar(200) COMMENT '增量日期 yyyyMMdd'
+)
+partitioned by(
+    cdate varchar(200)
+ )stored as PARQUET;
+
+--银行机构绿色专营体系建设情况表
+create table if not exists test.send_green_thr_bank_system_construction(
+haveGreenDepartment varchar(200) comment'建立专门绿色金融管理部',
+greenDepartmentLevel varchar(200) comment'绿色金融管理部级别',
+greenBranchNum varchar(200) comment'绿色专营支行数量',
+isSingleCreditScale varchar(200) comment'单列信贷规模',
+isSingleCapitalPrice varchar(200) comment'单列资金价格',
+isSingleRiskIndex varchar(200) comment'单列风险管理指标',
+isSingleApprovalChannel varchar(200) comment'单列信贷审批通道',
+isSingleKpi varchar(200) comment'单列绩效考核',
+isSingleGreenProduct varchar(200) comment'单列绿色金融产品',
+organization varchar(200) COMMENT '机构',
+gdate varchar(200) COMMENT '增量日期 yyyyMMdd'
+)
+partitioned by(
+    cdate varchar(200)
+ )stored as PARQUET;

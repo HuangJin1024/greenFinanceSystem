@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzhx.greenFinance.dao.QueryEnvironmentInfoMapper">
+	<select id="queryCustomerEnvironmentInfoCount" resultType="java.lang.Integer">
+		<!-- select count(*) from (select distinct customerNo,'D0090002' as
+		customerTypeCd from
+		send_green_thr_customer_info UNION
+		select distinct
+		customerNo,'D0090001' as
+		customerTypeCd from send_green_thr_comapny_info) t -->
+		SELECT count(*) from (select DISTINCT customerNo from
+		send_green_thr_safeinfo) t
+	</select>
+	<select id="queryCustomerEnvironmentInfoByPage" parameterType="com.hzhx.greenFinance.config.PageBean"
+		resultMap="CustomerEnvironmentInfoList">
+		<!-- select distinct customerNo,'D0090002' as customerTypeCd from
+		send_green_thr_customer_info UNION
+		select distinct customerNo,'D0090001' as
+		customerTypeCd from send_green_thr_comapny_info limit ${offset},
+		${limit} -->
+		SELECT customerNo
+		customerNo,'D0090002' as customerTypeCd from send_green_thr_customer_info
+		where customerNo in(
+		SELECT customerNo from (select DISTINCT customerNo from
+		send_green_thr_safeinfo) a) UNION
+		select customerNo,'D0090001' as customerTypeCd from send_green_thr_comapny_info
+		where customerNo in(
+		SELECT customerNo from (select DISTINCT customerNo from
+		send_green_thr_safeinfo) b) limit
+		${offset}, ${limit}
+	</select>
+	<select id="queryCustomerEnvironmentInfo" parameterType="String"
+		resultMap="CustomerEnvironmentInfoList">
+		select distinct customerNo,'D0090002' as customerTypeCd from
+		send_green_thr_customer_info UNION
+		select distinct customerNo,'D0090001' as
+		customerTypeCd from send_green_thr_comapny_info
+	</select>
+	<resultMap type="com.hzhx.greenFinance.vo.CustomerEnvironmentInfo"
+		id="CustomerEnvironmentInfoList">
+		<result property="customerNo" column="customerNo" />
+		<result property="customerTypeCd" column="customerTypeCd" />
+		<association property="individualInfo" column="customerNo"
+			select="getIndividualInfo" />
+		<association property="enterpriseInfo" column="customerNo"
+			select="getEnterpriseInfo" />
+		<collection property="environment" select="getEnvironment"
+			column="customerNo" ofType="com.hzhx.greenFinance.vo.children.Loan">
+		</collection>
+	</resultMap>
+
+	<select id="getIndividualInfo" parameterType="String" resultMap="IndividualInfo">
+		SELECT distinct customerNo,individualName,
+		documentType,
+		documentNumber,
+		gender,
+		educationDegree,
+		birthday,
+		industryCd,
+		careerTypeCd,
+		career,
+		majorBusiness,
+		isFarmer FROM send_green_thr_customer_info WHERE
+		customerNo = #{customerNo}
+	</select>
+	<resultMap id="IndividualInfo"
+		type="com.hzhx.greenFinance.vo.children.IndividualInfo">
+		<result property="individualName" column="individualName" />
+		<result property="documentType" column="documentType" />
+		<result property="documentNumber" column="documentNumber" />
+		<result property="gender" column="gender" />
+		<result property="educationDegree" column="educationDegree" />
+		<result property="birthday" column="birthday" />
+		<result property="industryCd" column="industryCd" />
+		<result property="careerTypeCd" column="careerTypeCd" />
+		<result property="career" column="career" />
+		<result property="majorBusiness" column="majorBusiness" />
+		<result property="isFarmer" column="isFarmer" />
+	</resultMap>
+
+	<select id="getEnterpriseInfo" parameterType="String" resultMap="EnterpriseInfo">
+		SELECT distinct customerNo,enterpriseName,
+		unifiedSocialCreditCd,
+		legalPerson,
+		registeredAmount,
+		registeredAreaCd,
+		industryCd,
+		ownershipTypeCd,
+		scaleTypeCd,
+		businessScope,
+		majorBusiness,
+		unifiedCreditFlag,
+		creditLimit
+		FROM send_green_thr_comapny_info WHERE customerNo = #{customerNo}
+	</select>
+	<resultMap id="EnterpriseInfo"
+		type="com.hzhx.greenFinance.vo.children.EnterpriseInfo">
+		<result property="enterpriseName" column="enterpriseName" />
+		<result property="unifiedSocialCreditCd" column="unifiedSocialCreditCd" />
+		<result property="legalPerson" column="legalPerson" />
+		<result property="registeredAmount" column="registeredAmount" />
+		<result property="registeredAreaCd" column="registeredAreaCd" />
+		<result property="industryCd" column="industryCd" />
+		<result property="ownershipTypeCd" column="ownershipTypeCd" />
+		<result property="scaleTypeCd" column="scaleTypeCd" />
+		<result property="businessScope" column="businessScope" />
+		<result property="majorBusiness" column="majorBusiness" />
+		<result property="unifiedCreditFlag" column="unifiedCreditFlag" />
+		<result property="creditLimit" column="creditLimit" />
+	</resultMap>
+
+	<select id="getEnvironment" parameterType="String" resultMap="environmentList">
+		SELECT distinct substring(t.involvedReasonNo, t.businessDate,
+		t.businessTypeCd),t.*
+		FROM send_green_thr_safeinfo t WHERE t.customerNo
+		=
+		#{customerNo}
+	</select>
+	<resultMap id="environmentList" type="com.hzhx.greenFinance.vo.children.Environment">
+		<result property="businessOrg" column="businessOrg" />
+		<result property="riskTypeCd" column="riskTypeCd" />
+		<result property="involvedDate" column="involvedDate" />
+		<result property="involvedDesc" column="involvedDesc" />
+		<result property="involvedReasonNo" column="involvedReasonNo" />
+		<result property="dealDate" column="dealDate" />
+		<result property="dealMeasure" column="dealMeasure" />
+		<result property="reformOverDate" column="reformOverDate" />
+		<result property="isOverReform" column="isOverReform" />
+		<association property="businessTypes"
+			column="{involvedReasonNo=involvedReasonNo,businessDate=businessDate}"
+			select="getBusinessType" />
+	</resultMap>
+
+	<select id="getBusinessType" parameterType="java.util.Map"
+		resultMap="BusinessTypecdList">
+		SELECT businessDate,businessTypeCd
+		FROM
+		send_green_thr_loan_info WHERE loanNo=#{loanNo} and
+		businessDate=#{businessDate}
+	</select>
+	<resultMap type="com.hzhx.greenFinance.vo.children.BusinessType"
+		id="BusinessTypecdList">
+		<result property="businessDate" column="businessDate" />
+		<collection property="businessTypeCd" ofType="String">
+			<result property="String" column="businessTypeCd" />
+		</collection>
+	</resultMap>
+
+	<!-- 每日增量 -->
+	<select id="queryDailyCount" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		SELECT count(*) from (select DISTINCT customerNo from
+		send_green_thr_safeinfo where gdate = #{dataDate}) t
+	</select>
+	<select id="queryDailyInfoByPage" resultMap="CustomerEnvironmentInfoList">
+		SELECT customerNo
+		customerNo,'D0090002' as customerTypeCd from send_green_thr_customer_info
+		where customerNo in(
+		SELECT customerNo from (select DISTINCT customerNo from
+		send_green_thr_safeinfo where gdate = #{dataDate}) a) UNION
+		select customerNo,'D0090001' as customerTypeCd from send_green_thr_comapny_info
+		where customerNo in(
+		SELECT customerNo from (select DISTINCT customerNo from
+		send_green_thr_safeinfo where gdate = #{dataDate}) b)
+	</select>
+</mapper>

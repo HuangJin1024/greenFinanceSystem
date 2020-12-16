@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzhx.greenFinance.dao.formDao.QueryGreenBuildMapper">
+
+	<select id="queryGreenBuild" parameterType="String" resultMap="GreenBuild">
+		select * from send_green_thr_bank_system_construction
+	</select>
+
+	<resultMap id="GreenBuild" type="com.hzhx.greenFinance.vo.totalReport.GreenBuild">
+		<result property="haveGreenDepartment" column="haveGreenDepartment" />
+		<result property="greenDepartmentLevel" column="greenDepartmentLevel" />
+		<result property="greenBranchNum" column="greenBranchNum" />
+		<result property="isSingleCreditScale" column="isSingleCreditScale" />
+		<result property="isSingleCapitalPrice" column="isSingleCapitalPrice" />
+		<result property="isSingleRiskIndex" column="isSingleRiskIndex" />
+		<result property="isSingleApprovalChannel" column="isSingleApprovalChannel" />
+		<result property="isSingleKpi" column="isSingleKpi" />
+		<result property="isSingleGreenProduct" column="isSingleGreenProduct" />
+	</resultMap>
+
+</mapper>
